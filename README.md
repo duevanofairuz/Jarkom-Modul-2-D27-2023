@@ -906,10 +906,95 @@ Kendala:
 Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode pada Apache. Error kode yang perlu diganti adalah 404 Not Found dan 403 Forbidden.
 
 ### Penyelesaian
+isi script no15:
+```sh
+#!/bin/bash
+
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/parikesit.abimanyu.d27
+        ServerName parikesit.abimanyu.d27.com
+        ServerAlias www.parikesit.abimanyu.d27.com
+
+        <Directory /var/www/parikesit.abimanyu.d27/public>
+                Options +Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/css>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/images>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/js>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/secret>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27>
+                AllowOverride All
+        </Directory>
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+        ErrorDocument 403 /error/403.html
+        ErrorDocument 404 /error/404.html
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+" > /etc/apache2/sites-available/default-parikesit.conf
+
+touch /var/www/parikesit.abimanyu.d27/.htaccess
+echo "
+#ErrorDocument 403 /var/www/parikesit.abimanyu.d27/error/403.html
+
+" > /var/www/parikesit.abimanyu.d27/.htaccess
+
+service apache2 restart
+```
+* menambahkan line berikut agar laman eror yang ada di dalam dapat muncul
+```
+        ErrorDocument 403 /error/403.html
+        ErrorDocument 404 /error/404.html
+```
 
 ### Output
+![Alt text](image-39.png)
 
-Kendala:
+![Alt text](image-40.png)
+![Alt text](image-41.png)
+
+![Alt text](image-42.png)
+![Alt text](image-43.png)
+
+Kendala: tidak ada
 
 ----------------------------------------------------------------------------------------------------------------------------------
 # No. 16
@@ -921,10 +1006,90 @@ www.parikesit.abimanyu.yyy.com/js
 
 
 ### Penyelesaian
+isi script no16:
+```sh
+#!/bin/bash
+
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/parikesit.abimanyu.d27
+        ServerName parikesit.abimanyu.d27.com
+        ServerAlias www.parikesit.abimanyu.d27.com
+
+        <Directory /var/www/parikesit.abimanyu.d27/public>
+                Options +Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/css>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/images>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/js>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/secret>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27>
+                AllowOverride All
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/js>
+                Options +Indexes
+        </Directory>
+
+        Alias "/js" "/var/www/parikesit.abimanyu.d27/public/js"
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+        ErrorDocument 403 /error/403.html
+        ErrorDocument 404 /error/404.html
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+" > /etc/apache2/sites-available/default-parikesit.conf
+
+service apache2 restart
+```
+* cukup menambahkan line berikut pada virtualhost untuk mengaliaskan nama domain
+```
+Alias "/js" "/var/www/parikesit.abimanyu.d27/public/js"
+```
 
 ### Output
+![Alt text](image-44.png)
+![Alt text](image-45.png)
+![Alt text](image-46.png)
 
-Kendala:
+Kendala: tidak ada
 
 ----------------------------------------------------------------------------------------------------------------------------------
 # No. 17
@@ -932,10 +1097,216 @@ Kendala:
 Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya dapat diakses melalui port 14000 dan 14400.
 
 ### Penyelesaian
+isi script no17:
+```sh
+#!/bin/bash
+
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/parikesit.abimanyu.d27
+        ServerName parikesit.abimanyu.d27.com
+        ServerAlias www.parikesit.abimanyu.d27.com
+
+        <Directory /var/www/parikesit.abimanyu.d27/public>
+                Options +Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/css>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/images>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/js>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/secret>
+                Options -Indexes
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27>
+                AllowOverride All
+        </Directory>
+
+        <Directory /var/www/parikesit.abimanyu.d27/public/js>
+                Options +Indexes
+        </Directory>
+
+        Alias "/js" "/var/www/parikesit.abimanyu.d27/public/js"
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+        ErrorDocument 403 /error/403.html
+        ErrorDocument 404 /error/404.html
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+" > /etc/apache2/sites-available/default-parikesit.conf
+
+service apache2 restart
+root@Abimanyu:~# bash no16.sh 
+ * Restarting Apache httpd web server apache2                                   AH00112: Warning: DocumentRoot [/var/www/html] does not exist
+AH00558: apache2: Could not reliably determine the server's fully qualified domain name, using 127.0.1.1. Set the 'ServerName' directive globally to suppress this message
+                                                                         [ OK ]
+root@Abimanyu:~# cat no17.sh 
+#!/bin/bash
+
+touch /etc/apache2/sites-available/default-baratayuda.conf
+
+echo "<VirtualHost *:14000>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/rjp.baratayuda.abimanyu.d27
+        ServerName rjp.baratayuda.abimanyu.d27.com
+        ServerAlias www.rjp.baratayuda.abimanyu.d27.com
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+<VirtualHost *:14400>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/rjp.baratayuda.abimanyu.d27
+        ServerName rjp.baratayuda.abimanyu.d27.com
+        ServerAlias www.rjp.baratayuda.abimanyu.d27.com
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+" > /etc/apache2/sites-available/default-baratayuda.conf
+
+echo "
+# If you just change the port or add more ports here, you will likely also
+# have to change the VirtualHost statement in
+# /etc/apache2/sites-enabled/000-default.conf
+
+Listen 80
+Listen 14000
+Listen 14400
+
+<IfModule ssl_module>
+        Listen 443
+</IfModule>
+
+<IfModule mod_gnutls.c>
+        Listen 443
+</IfModule>
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+" > /etc/apache2/ports.conf
+
+a2ensite default-baratayuda.conf
+
+service apache2 restart
+
+mkdir /var/www/rjp.baratayuda.abimanyu.d27
+
+# URL and destination path
+url="https://drive.google.com/uc?export=download&id=1sm-jMthB8Ym155F6ta9XbfXRoTZSIoEE"
+dest="/var/www/rjp.baratayuda.abimanyu.d27/btyd.zip"
+
+# Download the file
+wget -O "$dest" "$url"
+
+# Check if the file exists and has a non-zero size
+while [ ! -s "$dest" ]
+do
+  sleep 5  # Wait for 5 seconds and check again
+done
+
+# Once the file is downloaded and has content, unzip it
+unzip "$dest" -d /var/www/rjp.baratayuda.abimanyu.d27
+
+service apache2 restart
+```
+* menambahkan virtualhost untuk port 14000 dan 14400
+* kedua virtualhost memiliki isi yang sama
+* menambahkan `Listen 14000` dan `Listen 14400` pada `/etc/apache2/ports.conf`
+* membuat direktori baru tempat source web berada di `/var/www/rjp.baratayuda.abimanyu.d27`
+* melakukan download asset
 
 ### Output
+![Alt text](image-47.png)
+![Alt text](image-48.png)
 
-Kendala:
+![Alt text](image-49.png)
+![Alt text](image-50.png)
+
+![Alt text](image-51.png)
+![Alt text](image-52.png)
+
+
+Kendala: tidak ada
 
 ----------------------------------------------------------------------------------------------------------------------------------
 # No. 18
@@ -943,10 +1314,134 @@ Kendala:
 Untuk mengaksesnya buatlah autentikasi username berupa “Wayang” dan password “baratayudayyy” dengan yyy merupakan kode kelompok. Letakkan DocumentRoot pada /var/www/rjp.baratayuda.abimanyu.yyy.
 
 ### Penyelesaian
+isi script no18:
+```sh
+#!/bin/bash
+
+touch /var/www/rjp.baratayuda.abimanyu.d27/.htaccess
+echo "
+AuthType Basic
+AuthName \"Restricted Area\"
+AuthUserFile /etc/apache2/.htpasswd
+Require user Wayang
+" > /var/www/rjp.baratayuda.abimanyu.d27/.htaccess
+
+htpasswd -c -i -b /etc/apache2/.htpasswd Wayang baratayudad27
+
+echo "
+<VirtualHost *:14000>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/rjp.baratayuda.abimanyu.d27
+        ServerName rjp.baratayuda.abimanyu.d27.com
+        ServerAlias www.rjp.baratayuda.abimanyu.d27.com
+
+        <Directory /var/www/rjp.baratayuda.abimanyu.d27>
+                Options +FollowSymLinks
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+ 
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with a2disconf.
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+<VirtualHost *:14400>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/rjp.baratayuda.abimanyu.d27
+        ServerName rjp.baratayuda.abimanyu.d27.com
+        ServerAlias www.rjp.baratayuda.abimanyu.d27.com
+
+        <Directory /var/www/rjp.baratayuda.abimanyu.d27>
+                Options +FollowSymLinks
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with a2disconf.
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+" > /etc/apache2/sites-available/default-baratayuda.conf
+
+a2enmod auth_basic authn_core authn_file
+
+a2ensite default-baratayuda.conf
+
+service apache2 restart
+```
+* menambahkan `.htaccess` ke direktori `/var/www/rjp.baratayuda.d27/`
+* mengisi `.htaccess` dengan konfig autentikasi sebagai berikut
+```
+AuthType Basic
+AuthName \"Restricted Area\"
+AuthUserFile /etc/apache2/.htpasswd
+Require user Wayang
+```
+* menambahkan username dan password yang digunakan untuk autentikasi
+`htpasswd -c -i -b /etc/apache2/.htpasswd Wayang baratayudad27`
+* menambahkan sedikit konfig ke virtualhost port 14000 dan 14400
+```
+        <Directory /var/www/rjp.baratayuda.abimanyu.d27>
+                Options +FollowSymLinks
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+```
 
 ### Output
+![Alt text](image-53.png)
+![Alt text](image-54.png)
+![Alt text](image-55.png)
+![Alt text](image-56.png)
+![Alt text](image-57.png)
 
-Kendala:
+Kendala: tidak ada
 
 ----------------------------------------------------------------------------------------------------------------------------------
 # No. 19
@@ -954,10 +1449,74 @@ Kendala:
 Buatlah agar setiap kali mengakses IP dari Abimanyu akan secara otomatis dialihkan ke www.abimanyu.yyy.com (alias)
 
 ### Penyelesaian
+isi script no19:
+```sh
+#!/bin/bash
+
+echo "<VirtualHost *:80>
+        # The ServerName directive sets the request scheme, hostname and port that
+        # the server uses to identify itself. This is used when creating
+        # redirection URLs. In the context of virtual hosts, the ServerName
+        # specifies what hostname must appear in the request's Host: header to
+        # match this virtual host. For the default virtual host (this file) this
+        # value is not decisive as it is used as a last resort host regardless.
+        # However, you must set it for any further virtual host explicitly.
+        #ServerName www.example.com
+
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/abimanyu.d27
+        ServerName abimanyu.d27.com
+        ServerAlias www.abimanyu.d27.com
+
+        <Directory /var/www/abimanyu.d27>
+                Options +FollowSymLinks -Multiviews
+                AllowOverride All
+        </Directory>
+
+        # Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
+        # error, crit, alert, emerg.
+        # It is also possible to configure the loglevel for particular
+        # modules, e.g.
+        #LogLevel info ssl:warn
+
+        ErrorLog \${APACHE_LOG_DIR}/error.log
+        CustomLog \${APACHE_LOG_DIR}/access.log combined
+
+        # For most configuration files from conf-available/, which are
+        # enabled or disabled at a global level, it is possible to
+        # include a line for only one particular virtual host. For example the
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with a2disconf.
+        #Include conf-available/serve-cgi-bin.conf
+</VirtualHost>
+
+<VirtualHost *:80>
+    ServerName 10.35.3.3
+    Redirect permanent / http://www.abimanyu.d27.com
+</VirtualHost>
+
+
+# vim: syntax=apache ts=4 sw=4 sts=4 sr noet
+" > /etc/apache2/sites-available/default-8002.conf
+
+a2ensite default-8002.conf      # sitesavailable milik abimanyu.d27.com
+service apache2 restart
+```
+* menambahkan virtualhost baru dengan port yang sama sebagai berikut
+```
+<VirtualHost *:80>
+    ServerName 10.35.3.3
+    Redirect permanent / http://www.abimanyu.d27.com
+</VirtualHost>
+```
 
 ### Output
+![Alt text](image-58.png)
+![Alt text](image-59.png)
 
-Kendala:
+![Alt text](image-60.png)
+
+Kendala: tidak ada
 
 ----------------------------------------------------------------------------------------------------------------------------------
 # No. 20
@@ -965,8 +1524,35 @@ Kendala:
 Karena website www.parikesit.abimanyu.yyy.com semakin banyak pengunjung dan banyak gambar gambar random, maka ubahlah request gambar yang memiliki substring “abimanyu” akan diarahkan menuju abimanyu.png.
 
 ### Penyelesaian
+isi script no20:
+```sh
+#!/bin/bash
+
+a2enmod rewrite
+
+service apache2 restart
+
+touch /var/www/parikesit.abimanyu.d27/public/images/.htaccess
+echo "
+RewriteEngine On
+RewriteCond %{REQUEST_URI} ^/public/images/(.*)abimanyu(.*)
+RewriteCond %{REQUEST_URI} !/public/images/abimanyu.png
+RewriteRule abimanyu http://parikesit.abimanyu.d27.com/public/images/abimanyu.png\$1 [L,R=301]
+" > /var/www/parikesit.abimanyu.d27/public/images/.htaccess
+
+service apache2 restart
+```
+* menambahkan `RewriteCond` dan `RewriteRule` untuk `.htaccess`
 
 ### Output
+![Alt text](image-61.png)
+![Alt text](image-62.png)
+![Alt text](image-63.png)
+![Alt text](image-64.png)
 
-Kendala:
+![Alt text](image-65.png)
+![Alt text](image-66.png)
+![Alt text](image-67.png)
+
+Kendala: tidak ada
 
