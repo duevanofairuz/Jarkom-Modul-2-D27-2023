@@ -10,6 +10,9 @@ Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjun
 
 ### Penyelesaian
 ![Alt text](image.png)
+![Alt text](image-1.png)
+
+### Output
 
 Kendala: 
 
@@ -19,6 +22,8 @@ Kendala:
 Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan alias www.arjuna.yyy.com dengan yyy merupakan kode kelompok.
 
 ### Penyelesaian
+
+### Output
 
 Kendala:
 
@@ -30,6 +35,7 @@ Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses k
 
 ### Penyelesaian
 
+### Output
 
 Kendala: 
 
@@ -40,6 +46,8 @@ Kemudian, karena terdapat beberapa web yang harus di-deploy, buatlah subdomain p
 
 ### Penyelesaian
 
+### Output
+
 Kendala: 
 
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -49,6 +57,7 @@ Buat juga reverse domain untuk domain utama. (Abimanyu saja yang direverse)
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -60,6 +69,8 @@ Agar dapat tetap dihubungi ketika DNS Server Yudhistira bermasalah, buat juga We
 
 ### Penyelesaian
 
+### Output
+
 Kendala:
 
 
@@ -70,6 +81,7 @@ Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatl
 
 ### Penyelesaian
 
+### Output
 
 Kendala: 
 
@@ -80,6 +92,7 @@ Untuk informasi yang lebih spesifik mengenai Ranjapan Baratayuda, buatlah subdom
 
 ### Penyelesaian
 
+### Output
 
 Kendala: 
 
@@ -91,6 +104,7 @@ Arjuna merupakan suatu Load Balancer Nginx dengan tiga worker (yang juga menggun
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -105,6 +119,7 @@ Kemudian gunakan algoritma Round Robin untuk Load Balancer pada Arjuna. Gunakan 
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -115,6 +130,7 @@ Selain menggunakan Nginx, lakukan konfigurasi Apache Web Server pada worker Abim
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -125,6 +141,7 @@ Setelah itu ubahlah agar url www.abimanyu.yyy.com/index.php/home menjadi www.abi
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -135,6 +152,7 @@ Selain itu, pada subdomain www.parikesit.abimanyu.yyy.com, DocumentRoot disimpan
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -145,6 +163,7 @@ Pada subdomain tersebut folder /public hanya dapat melakukan directory listing s
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -155,6 +174,7 @@ Buatlah kustomisasi halaman error pada folder /error untuk mengganti error kode 
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -162,7 +182,6 @@ Kendala:
 # No. 16
 ### Soal
 Buatlah suatu konfigurasi virtual host agar file asset www.parikesit.
-
 abimanyu.yyy.com/public/js menjadi 
 
 www.parikesit.abimanyu.yyy.com/js 
@@ -170,6 +189,7 @@ www.parikesit.abimanyu.yyy.com/js
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -180,6 +200,7 @@ Agar aman, buatlah konfigurasi agar www.rjp.baratayuda.abimanyu.yyy.com hanya da
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -190,6 +211,7 @@ Untuk mengaksesnya buatlah autentikasi username berupa “Wayang” dan password
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -200,6 +222,7 @@ Buatlah agar setiap kali mengakses IP dari Abimanyu akan secara otomatis dialihk
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
@@ -210,6 +233,7 @@ Karena website www.parikesit.abimanyu.yyy.com semakin banyak pengunjung dan bany
 
 ### Penyelesaian
 
+### Output
 
 Kendala:
 
