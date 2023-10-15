@@ -4,6 +4,41 @@ Anggota Kelompok Jarkom D27:
 * Duevano Fairuz Pandya (5025211052)
 * Choirul Rijal Dawam Iba (5025211206)
 
+----------------------------------------------------------------------------------------------------------------------------------
+**PREFIX: 10.35.X.X**
+
+LOKASI SHELL SCRIPT / KONFIGURASI TIAP NOMOR:
+1. topologi
+2. node Yudhistira
+3. node Yudhistira
+4. node Yudhistira
+5. node Yudhistira
+6. node Yudhistira, node Werkudara
+7. node Yudhistira, node Werkudara
+8. node Werkudara
+9. node Arjuna, node Prabukusuma, node Abimanyu, node Wisanggeni 
+10. node Arjuna, node Prabukusuma, node Abimanyu, node Wisanggeni
+11. node Abimanyu
+12. node Abimanyu
+13. node Abimanyu, node Yudhistira
+14. node Abimanyu
+15. node Abimanyu
+16. node Abimanyu
+17. node Abimanyu
+18. node Abimanyu
+19. node Abimanyu
+20. node Abimanyu
+
+
+----------------------------------------------------------------------------------------------------------------------------------
+Revisi:
+* hapus default page nginx dan apache2
+* no9: di arjuna ditambahi servername 
+* no11 keatas: apache2 set ke port 80 tok
+* no14: dalam public harusnya gabisa diakses
+
+
+----------------------------------------------------------------------------------------------------------------------------------
 # No. 1
 ### Soal
 Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjuna merupakan Load Balancer yang terdiri dari beberapa Web Server yaitu Prabakusuma, Abimanyu, dan Wisanggeni. Buatlah topologi dengan pembagian sebagai berikut. Folder topologi dapat diakses pada drive berikut 
@@ -11,10 +46,9 @@ Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjun
 ### Penyelesaian
 ![Alt text](image.png)
 ![Alt text](image-1.png)
+-tambahin penjelasan singkat jal-
 
-### Output
-
-Kendala: 
+Kendala: tidak ada
 
 ----------------------------------------------------------------------------------------------------------------------------------
 # No. 2
@@ -22,8 +56,13 @@ Kendala:
 Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan alias www.arjuna.yyy.com dengan yyy merupakan kode kelompok.
 
 ### Penyelesaian
+![Alt text](image-2.png)
+![Alt text](image-3.png)
+-tambahin penjelasan singkat jal-
 
 ### Output
+![Alt text](image-4.png)
+-tambahin penjelasan singkat jal-
 
 Kendala:
 
@@ -34,8 +73,13 @@ Kendala:
 Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses ke abimanyu.yyy.com dan alias www.abimanyu.yyy.com.
 
 ### Penyelesaian
+![Alt text](image-5.png)
+![Alt text](image-6.png)
+-tambahin penjelasan singkat jal-
 
 ### Output
+![Alt text](image-7.png)
+-tambahin penjelasan singkat jal-
 
 Kendala: 
 
@@ -45,8 +89,13 @@ Kendala:
 Kemudian, karena terdapat beberapa web yang harus di-deploy, buatlah subdomain parikesit.abimanyu.yyy.com yang diatur DNS-nya di Yudhistira dan mengarah ke Abimanyu.
 
 ### Penyelesaian
+![Alt text](image-8.png)
+![Alt text](image-9.png)
+-tambahin penjelasan singkat jal-
 
 ### Output
+![Alt text](image-10.png)
+-tambahin penjelasan singkat jal-
 
 Kendala: 
 
@@ -56,10 +105,17 @@ Kendala:
 Buat juga reverse domain untuk domain utama. (Abimanyu saja yang direverse)
 
 ### Penyelesaian
+![Alt text](image-11.png)
+![Alt text](image-12.png)
+
+* Kita lakukan pengaturan konfig di node Yudhistira,
+* echo yang pertama digunakan untuk mengatur konfig deklarasi dns di `/etc/bind/named.conf.local`
+* cp `/etc/bind/db.local` sebagai template bind konfig reverse domain abimanyu.d27.com (`3.35.10.in-addr.arpa`)
 
 ### Output
+![Alt text](image-13.png)
 
-Kendala:
+Kendala: tidak ada
 
 
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -68,10 +124,35 @@ Kendala:
 Agar dapat tetap dihubungi ketika DNS Server Yudhistira bermasalah, buat juga Werkudara sebagai DNS Slave untuk domain utama.
 
 ### Penyelesaian
+Untuk nomor 6, script penyelesaian dibuat di node Yudhistira dan Werkudara.
+
+Node Yudhistira:
+
+![Alt text](image-14.png)
+
+Node Werkudara:
+
+![Alt text](image-15.png)
+
+* konfigurasi di atas dilakukan untuk membuat dns yudhistira sebagai master dan werkudara sebagai slave nya
+* pada yudhistira terdapat tambahan 
+```
+        type master;
+        notify yes;
+        also-notify { 10.35.1.2; }; 
+        allow-transfer { 10.35.1.2; };
+```
+* dan apda werkudara terdapat tambahan 
+```
+        type slave;
+        masters { 10.35.1.3;}; // IP Yudhistira
+```
 
 ### Output
+![Alt text](image-16.png)
+![Alt text](image-17.png)
 
-Kendala:
+Kendala: tidak ada
 
 
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -80,10 +161,35 @@ Kendala:
 Seperti yang kita tahu karena banyak sekali informasi yang harus diterima, buatlah subdomain khusus untuk perang yaitu baratayuda.abimanyu.yyy.com dengan alias www.baratayuda.abimanyu.yyy.com yang didelegasikan dari Yudhistira ke Werkudara dengan IP menuju ke Abimanyu dalam folder Baratayuda.
 
 ### Penyelesaian
+Untuk melakukan delegasi nama domain diperlukan konfig untuk dua node yang ingin disambungkan. Konfigurasi dibuat di node Yudhistira dan Werkudara
+
+Node Yudhistira:
+
+![Alt text](image-18.png)
+![Alt text](image-19.png)
+
+Node Werkudara:
+
+![Alt text](image-20.png)
+![Alt text](image-21.png)
+
+* pendelegasian dilakukan dengan cara menambahkan 
+```
+ns1     IN      A       10.35.1.2       ; IP Werkudara
+baratayuda      IN      NS      ns1
+```
+* dan dilakukan konfig berikut pada `/etc/bind/named.conf.options`
+```
+        // dnssec-validation auto;
+        allow-query{any;};
+``` 
+* selain itu pada node werkudara juga ditambahkan konfig deklarasi dns `baratayuda.abimanyu.d27.com` dengan tipe master, dan konfig bind nya juga sebagaimana pembuatan domain biasanya
+
 
 ### Output
+![Alt text](image-22.png)
 
-Kendala: 
+Kendala: tidak ada
 
 ----------------------------------------------------------------------------------------------------------------------------------
 # No. 8
