@@ -46,8 +46,33 @@ Yudhistira akan digunakan sebagai DNS Master, Werkudara sebagai DNS Slave, Arjun
 ### Penyelesaian
 ![Alt text](image.png)
 ![Alt text](image-1.png)
--tambahin penjelasan singkat jal-
 
+* Gunakan fitur `Change hostname` untuk merubah nama
+* Lalu kita setting network masing-masing node dengan fitur `Edit network configuration`
+*  Yudhistira sebagai DNS Master
+  ```
+          auto eth0
+          iface eth0 inet static
+                address 10.35.1.3
+	        netmask 255.255.255.0
+	        gateway 10.35.1.1
+ ```
+* Werkudara sebagai DNS Slave
+  ```
+          auto eth0
+          iface eth0 inet static
+                address 10.35.1.2
+	        netmask 255.255.255.0
+	        gateway 10.35.1.1     
+  ```
+* Arjuna sebagai Load Balancer
+  ```
+          auto eth0
+          iface eth0 inet static
+	        address 10.35.2.2
+	        netmask 255.255.255.0
+	        gateway 10.35.2.1
+   ```
 Kendala: tidak ada
 
 ----------------------------------------------------------------------------------------------------------------------------------
@@ -58,11 +83,37 @@ Buatlah website utama pada node arjuna dengan akses ke arjuna.yyy.com dengan ali
 ### Penyelesaian
 ![Alt text](image-2.png)
 ![Alt text](image-3.png)
--tambahin penjelasan singkat jal-
+
+* Lakukan pada Node Yudistira.isikan seperti berikut:
+```
+        nano /etc/bind/named.conf.local
+```
+* Isikan configurasi domain arjuna.d27.com sesuai dengan syntax berikut:
+  ```
+          echo zone "arjuna.d27.com" {
+	        type master;
+	        file "/etc/bind/jarkom/arjuna.d27.com";
+          };
+  ```
+* Buat folder jarkom di dalam `/etc/bind`
+  ```
+          mkdir /etc/bind/jarkom
+  ```
+* Copykan file db.local pada path /etc/bind ke dalam folder jarkom yang baru saja dibuat dan 
+  ubah namanya menjadi arjuna.d27.com
+  ```
+          cp /etc/bind/db.local /etc/bind/jarkom/arjuna.d27.com
+  ```
+* Restart bind dengan perintah
+  ```
+          service bind9 restart
+  ```
 
 ### Output
 ![Alt text](image-4.png)
--tambahin penjelasan singkat jal-
+
+* Buka Node Nakula atau Sadewa lalu isikan `ping arjuna.d27.com`
+* Untuk menghentikan ping tekan `Ctrl + C`
 
 Kendala:
 
@@ -75,11 +126,37 @@ Dengan cara yang sama seperti soal nomor 2, buatlah website utama dengan akses k
 ### Penyelesaian
 ![Alt text](image-5.png)
 ![Alt text](image-6.png)
--tambahin penjelasan singkat jal-
+
+* Lakukan pada Node Yudistira.isikan seperti berikut:
+```
+        nano /etc/bind/named.conf.local
+```
+* Isikan configurasi domain arjuna.d27.com sesuai dengan syntax berikut:
+  ```
+          echo zone "abimanyu.d27.com" {
+	        type master;
+	        file "/etc/bind/jarkom/abimanyu.d27.com";
+          };
+  ```
+* Buat folder jarkom di dalam `/etc/bind`
+  ```
+          mkdir /etc/bind/jarkom
+  ```
+* Copykan file db.local pada path /etc/bind ke dalam folder jarkom yang baru saja dibuat dan 
+  ubah namanya menjadi arjuna.d27.com
+  ```
+          cp /etc/bind/db.local /etc/bind/jarkom/abimanyu.d27.com
+  ```
+* Restart bind dengan perintah
+  ```
+          service bind9 restart
+  ```
 
 ### Output
 ![Alt text](image-7.png)
--tambahin penjelasan singkat jal-
+
+* Buka Node Nakula atau Sadewa lalu isikan `ping abimanyu.d27.com`
+* Untuk menghentikan ping tekan `Ctrl + C`
 
 Kendala: 
 
@@ -91,11 +168,37 @@ Kemudian, karena terdapat beberapa web yang harus di-deploy, buatlah subdomain p
 ### Penyelesaian
 ![Alt text](image-8.png)
 ![Alt text](image-9.png)
--tambahin penjelasan singkat jal-
+
+* Lakukan pada Node Yudistira.isikan seperti berikut:
+```
+        nano /etc/bind/named.conf.local
+```
+* Isikan configurasi domain arjuna.d27.com sesuai dengan syntax berikut:
+  ```
+          echo zone "abimanyu.d27.com" {
+	        type master;
+	        file "/etc/bind/jarkom/abimanyu.d27.com";
+          };
+  ```
+* Buat folder jarkom di dalam `/etc/bind`
+  ```
+          mkdir /etc/bind/jarkom
+  ```
+* Copykan file db.local pada path /etc/bind ke dalam folder jarkom yang baru saja dibuat dan 
+  ubah namanya menjadi arjuna.d27.com
+  ```
+          cp /etc/bind/db.local /etc/bind/jarkom/abimanyu.d27.com
+  ```
+* Restart bind dengan perintah
+  ```
+          service bind9 restart
+  ```
 
 ### Output
 ![Alt text](image-10.png)
--tambahin penjelasan singkat jal-
+
+* Buka Node Nakula atau Sadewa lalu isikan `ping abimanyu.d27.com` atau `ping www.abimanyu.d27.com` atau `ping parikesit.abimanyu.com`
+* Untuk menghentikan ping tekan `Ctrl + C`
 
 Kendala: 
 
